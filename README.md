@@ -1,6 +1,12 @@
 EvalEx-big-math - an EvalEx extension to use the big-math project for calculations
 ==========
 
+[![Build](https://github.com/ezylang/EvalEx-big-math/actions/workflows/build.yml/badge.svg)](https://github.com/ezylang/EvalEx-big-math/actions/workflows/build.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ezylang_EvalEx-big-math&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ezylang_EvalEx-big-math)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ezylang_EvalEx-big-math&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ezylang_EvalEx-big-math)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ezylang_EvalEx-big-math&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ezylang_EvalEx-big-math)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ezylang_EvalEx-big-math&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ezylang_EvalEx-big-math)
+
 [EvalEx](https://github.com/ezylang/EvalEx) is a handy expression evaluator for Java, that allows to
 evaluate simple mathematical and boolean expressions.
 
