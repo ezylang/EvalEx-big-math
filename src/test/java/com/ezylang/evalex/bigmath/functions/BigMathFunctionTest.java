@@ -119,6 +119,18 @@ class BigMathFunctionTest {
   @CsvSource(
       delimiter = ':',
       value = {
+        "ACOTH(-1.5) : -0.80471895621705018730037966661309381976280067713425886095632394573709",
+        "ACOTH(1.5) : 0.80471895621705018730037966661309381976280067713425886095632394573709"
+      })
+  void testAcotH(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
         "ACOTR(1) : 0.78539816339744830961566084581987572104929234984377645524373614807695",
         "ACOTR(-1) : 2.3561944901923449288469825374596271631478770495313293657312084442309",
       })
