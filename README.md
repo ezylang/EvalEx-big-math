@@ -67,19 +67,30 @@ ExpressionConfiguration configuration =
 Expression expression = new Expression("BIG_SIN(x) + BIG_COS(y)", configuration); 
 ```
 
+## Discussion
+
+For announcements, questions and ideas visit
+the [Discussions area](https://github.com/ezylang/EvalEx-big-math/discussions).
+
+## Download / Including
+
+You can download the binaries, source code and JavaDoc jars from
+[Maven Central](https://search.maven.org/search?q=a:%22EvalEx-big-math%22).\
+You will find there also copy/paste templates for including EvalEx in your project with build
+systems like Maven or Gradle.
+
 ## New Functions
 
 | Name         | Description                                              |
 |--------------|----------------------------------------------------------|
-| ACOTH(value) | Returns the the hyperbolic arc-co-tangent (in radians)   |
 | BN(value)    | Calculates the Bernoulli number for the specified index. |
 | EXP(value)   | Calculates the natural exponent of x (e<sup>x</sup>).    |
 
 ## Overridden Basic Functions
 
-| Name         | Description                                                                                    |
-|--------------|------------------------------------------------------------------------------------------------|
-| LOG(value)                                 | The natural logarithm (base e) of a value                                                                               |
+| Name              | Description                                  |
+|-------------------|----------------------------------------------|
+| LOG(value)        | The natural logarithm (base e) of a value    |
 
 ## Overridden Trigonometric Functions
 
@@ -89,6 +100,7 @@ Expression expression = new Expression("BIG_SIN(x) + BIG_COS(y)", configuration)
 | ACOSH(value) | Returns the the hyperbolic arc-cosine (in degrees)                                             |
 | ACOSR(value) | Returns the the arc-cosine (in radians)                                                        |
 | ACOT(value)  | Returns the the arc-co-tangent (in degrees)                                                    |
+| ACOTH(value) | Returns the the hyperbolic arc-co-tangent (in radians)                                         |
 | ACOTR(value) | Returns the the arc-co-tangent (in radians)                                                    |
 | ASIN(value)  | Returns the the arc-sine (in degrees)                                                          |
 | ASINH(value) | Returns the hyperbolic arc-sine (in degrees)                                                   |
@@ -118,3 +130,21 @@ Expression expression = new Expression("BIG_SIN(x) + BIG_COS(y)", configuration)
 | TAN(value)   | Returns the tangent of an angle (in degrees)                                                   |
 | TANH(value)  | Returns the hyperbolic tangent of a value                                                      |
 | TANR(value)  | Returns the tangent of an angle (in radians)                                                   |
+
+## Author and License
+
+Copyright 2012-2022 by Udo Klimaschewski
+
+**Thanks to all who contributed to this
+project: [Contributors](https://github.com/ezylang/EvalEx-big-math/graphs/contributors)**
+
+The software is licensed under the Apache License, Version 2.0 (
+see [LICENSE](https://raw.githubusercontent.com/ezylang/EvalEx-big-math/main/LICENSE) file).
+
+[EvalEx](https://github.com/ezylang/EvalEx) is licensed under
+the [Apache 2.0 License](https://github.com/ezylang/EvalEx/blob/main/LICENSE) and has a Copyright
+2012-2022 by Udo Klimaschewski.
+
+[Big-math](https://github.com/eobermuhlner/big-math) is licensed under
+the [MIT License](https://raw.githubusercontent.com/eobermuhlner/big-math/master/LICENSE.txt) and
+has a Copyright 2017 by Eric Obermühlner. 

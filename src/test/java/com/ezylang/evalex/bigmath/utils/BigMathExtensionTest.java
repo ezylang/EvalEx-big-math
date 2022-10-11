@@ -39,7 +39,9 @@ class BigMathExtensionTest {
 
     BigDecimal deg = new BigDecimal(degrees, mathContext);
     Assertions.assertThat(
-            BigMathExtension.toRadians(deg, mathContext).stripTrailingZeros().toPlainString())
+            BigDecimalMathExtension.toRadians(deg, mathContext)
+                .stripTrailingZeros()
+                .toPlainString())
         .isEqualTo(radians);
   }
 
@@ -52,7 +54,9 @@ class BigMathExtensionTest {
 
     BigDecimal deg = new BigDecimal(degrees, mathContext);
     Assertions.assertThat(
-            BigMathExtension.toRadians(deg, mathContext).stripTrailingZeros().toPlainString())
+            BigDecimalMathExtension.toRadians(deg, mathContext)
+                .stripTrailingZeros()
+                .toPlainString())
         .isEqualTo(radians);
   }
 
@@ -71,7 +75,9 @@ class BigMathExtensionTest {
 
     BigDecimal rad = new BigDecimal(radians, mathContext);
     Assertions.assertThat(
-            BigMathExtension.toDegrees(rad, mathContext).stripTrailingZeros().toPlainString())
+            BigDecimalMathExtension.toDegrees(rad, mathContext)
+                .stripTrailingZeros()
+                .toPlainString())
         .isEqualTo(degrees);
   }
 
@@ -90,7 +96,9 @@ class BigMathExtensionTest {
 
     BigDecimal rad = new BigDecimal(radians, mathContext);
     Assertions.assertThat(
-            BigMathExtension.toDegrees(rad, mathContext).stripTrailingZeros().toPlainString())
+            BigDecimalMathExtension.toDegrees(rad, mathContext)
+                .stripTrailingZeros()
+                .toPlainString())
         .isEqualTo(degrees);
   }
 }

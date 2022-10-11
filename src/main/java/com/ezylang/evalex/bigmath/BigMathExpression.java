@@ -16,7 +16,7 @@
 package com.ezylang.evalex.bigmath;
 
 import com.ezylang.evalex.Expression;
-import com.ezylang.evalex.bigmath.functions.BigMathFunctions;
+import com.ezylang.evalex.bigmath.functions.bigdecimalmath.BigMathFunctions;
 import com.ezylang.evalex.config.ExpressionConfiguration;
 
 /** An expression that has the big-math functions configured by default. */

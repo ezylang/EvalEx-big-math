@@ -15,7 +15,7 @@
 */
 package com.ezylang.evalex.bigmath;
 
-import com.ezylang.evalex.bigmath.functions.BigMathFunctions;
+import com.ezylang.evalex.bigmath.functions.bigdecimalmath.BigMathFunctions;
 import com.ezylang.evalex.config.ExpressionConfiguration;
 import com.ezylang.evalex.functions.FunctionIfc;
 import java.util.Map.Entry;
