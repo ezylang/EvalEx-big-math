@@ -16,16 +16,14 @@
 package com.ezylang.evalex.bigmath.functions.bigdecimalmath;
 
 import ch.obermuhlner.math.big.BigDecimalMath;
-import com.ezylang.evalex.functions.FunctionParameter;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-/** Returns the arc-co-tangent (in radians). */
-@FunctionParameter(name = "x", nonZero = true)
-public class BigMathAcotRFunction extends AbstractBigMathFunction {
+/** Returns the number PI with the configured {@link MathContext} precision. The value is cached. */
+public class BigMathPiFunction extends AbstractBigMathFunction {
 
   @Override
   protected BigDecimal evaluateBigMath(MathContext mathContext, BigDecimal... parameters) {
-    return BigDecimalMath.acot(parameters[0], mathContext);
+    return BigDecimalMath.pi(mathContext);
   }
 }

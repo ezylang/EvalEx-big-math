@@ -13,19 +13,23 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 */
-package com.ezylang.evalex.bigmath.functions.bigdecimalmath;
+package com.ezylang.evalex.bigmath.operators.bigdecimalmath;
 
-import ch.obermuhlner.math.big.BigDecimalMath;
-import com.ezylang.evalex.functions.FunctionParameter;
-import java.math.BigDecimal;
-import java.math.MathContext;
+import com.ezylang.evalex.operators.OperatorIfc;
+import java.util.Map;
+import java.util.Map.Entry;
 
-/** Returns the arc-co-tangent (in radians). */
-@FunctionParameter(name = "x", nonZero = true)
-public class BigMathAcotRFunction extends AbstractBigMathFunction {
+public class BigDecimalMathOperators {
 
-  @Override
-  protected BigDecimal evaluateBigMath(MathContext mathContext, BigDecimal... parameters) {
-    return BigDecimalMath.acot(parameters[0], mathContext);
+  private BigDecimalMathOperators() {
+    // no instantiation
   }
+
+  public static Map.Entry<String, OperatorIfc>[] allOperators() {
+    return ALL_OPERATORS;
+  }
+
+  @SuppressWarnings("unchecked")
+  protected static final Map.Entry<String, OperatorIfc>[] ALL_OPERATORS =
+      new Entry[] {Map.entry("^", new BigMathInfixPowerOfOperator())};
 }

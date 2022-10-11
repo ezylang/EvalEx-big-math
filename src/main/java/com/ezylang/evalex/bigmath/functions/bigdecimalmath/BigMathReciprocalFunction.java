@@ -20,12 +20,12 @@ import com.ezylang.evalex.functions.FunctionParameter;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-/** Returns the arc-co-tangent (in radians). */
+/** Calculates the reciprocal of x. */
 @FunctionParameter(name = "x", nonZero = true)
-public class BigMathAcotRFunction extends AbstractBigMathFunction {
+public class BigMathReciprocalFunction extends AbstractBigMathFunction {
 
   @Override
   protected BigDecimal evaluateBigMath(MathContext mathContext, BigDecimal... parameters) {
-    return BigDecimalMath.acot(parameters[0], mathContext);
+    return BigDecimalMath.reciprocal(parameters[0], mathContext);
   }
 }

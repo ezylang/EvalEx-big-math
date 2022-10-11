@@ -20,12 +20,15 @@ import com.ezylang.evalex.functions.FunctionParameter;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-/** Returns the arc-co-tangent (in radians). */
-@FunctionParameter(name = "x", nonZero = true)
-public class BigMathAcotRFunction extends AbstractBigMathFunction {
+/**
+ * Returns the mantissa of the specified BigDecimal written as <i>mantissa *
+ * 10<sup>exponent</sup></i>.
+ */
+@FunctionParameter(name = "x")
+public class BigMathMantissaFunction extends AbstractBigMathFunction {
 
   @Override
   protected BigDecimal evaluateBigMath(MathContext mathContext, BigDecimal... parameters) {
-    return BigDecimalMath.acot(parameters[0], mathContext);
+    return BigDecimalMath.mantissa(parameters[0]);
   }
 }

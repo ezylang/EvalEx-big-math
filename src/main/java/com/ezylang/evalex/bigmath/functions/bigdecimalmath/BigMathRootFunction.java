@@ -20,12 +20,13 @@ import com.ezylang.evalex.functions.FunctionParameter;
 import java.math.BigDecimal;
 import java.math.MathContext;
 
-/** Returns the arc-co-tangent (in radians). */
-@FunctionParameter(name = "x", nonZero = true)
-public class BigMathAcotRFunction extends AbstractBigMathFunction {
+/** Calculates the nth root of x. */
+@FunctionParameter(name = "x", nonNegative = true)
+@FunctionParameter(name = "n", nonZero = true)
+public class BigMathRootFunction extends AbstractBigMathFunction {
 
   @Override
   protected BigDecimal evaluateBigMath(MathContext mathContext, BigDecimal... parameters) {
-    return BigDecimalMath.acot(parameters[0], mathContext);
+    return BigDecimalMath.root(parameters[0], parameters[1], mathContext);
   }
 }

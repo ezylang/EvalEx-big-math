@@ -7,18 +7,18 @@ EvalEx-big-math - an EvalEx extension to use the big-math project for calculatio
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ezylang_EvalEx-big-math&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ezylang_EvalEx-big-math)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ezylang_EvalEx-big-math&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ezylang_EvalEx-big-math)
 
-[EvalEx](https://github.com/ezylang/EvalEx) is a handy expression evaluator for Java, that allows to
-evaluate simple mathematical and boolean expressions.
+[EvalEx](https://github.com/ezylang/EvalEx) is a handy expression evaluator for Java. It allows to
+evaluate mathematical and boolean expressions.
 
-[Big-math](https://github.com/eobermuhlner/big-math) is a library by Eric Obermühlner and provides
-advanced Java BigDecimal math functions (pow, sqrt, log, sin, ...) using an arbitrary precision.
+[Big-math](https://github.com/eobermuhlner/big-math) is a library by Eric Obermühlner. It provides
+advanced Java BigDecimal math functions using an arbitrary precision.
 
 EvalEx-big-math adds the advanced math functions from big-math to EvalEx.
 
 ## How to use it
 
 The easiest way is to use the `BigMathExpression` class, which is the same as the `Expression`
-class, but has all the new functions configured:
+class, but has all the new functions and operators configured:
 
 ```java
 BigMathExpression expression = new BigMathExpression("SIN(x)");
@@ -32,39 +32,45 @@ BigMathExpression expression = new BigMathExpression("SIN(x)", configuration);
 EvaluationValue result = expression.with("x", 10).evaluate(); 
 ```
 
-Alternatively, create a new EvalEx configuration and simply add all the functions, existing
-functions will be overridden:
+Alternatively, create a new EvalEx configuration and simply add all the functions and operators,
+existing functions and operators will be overridden:
 
 ```java
 ExpressionConfiguration configuration =
     ExpressionConfiguration.defaultConfiguration()
-        .withAdditionalFunctions(BigMathFunctions.allFunctions());
+        .withAdditionalFunctions(BigMathFunctions.allFunctions())
+        .withAdditionalOperators(BigDecimalMathOperators.allOperators());
         
-Expression expression = new Expression("SIN(x)", configuration); 
+Expression expression = new Expression("SIN(x) ^ COS(y)", configuration); 
 ```
 
-You may choose only to add the functions you need by specifying them separately:
+You may choose only to add the functions and operators you need by specifying them separately:
 
 ```java
 ExpressionConfiguration configuration =
     ExpressionConfiguration.defaultConfiguration()
         .withAdditionalFunctions(
-        Map.entry("SIN", new BigMathSinFunction()),
-        Map.entry("COS", new BigMathCosFunction()));
+            Map.entry("SIN", new BigMathSinFunction()),
+            Map.entry("COS", new BigMathCosFunction()))
+        .withAdditionalOperators(
+            Map.entry("^", new BigMathInfixPowerOfOperator()));
+
         
-Expression expression = new Expression("SIN(x) + COS(y)", configuration); 
+Expression expression = new Expression("SIN(x) ^ COS(y)", configuration); 
 ```
 
-Instead of overriding the existing functions, you can also add them with new names:
+Instead of overriding the existing functions and operators, you can also add them with new names:
 
 ```java
 ExpressionConfiguration configuration =
     ExpressionConfiguration.defaultConfiguration()
         .withAdditionalFunctions(
-        Map.entry("BIG_SIN", new BigMathSinFunction()),
-        Map.entry("BIG_COS", new BigMathCosFunction()));
+            Map.entry("BIG_SIN", new BigMathSinFunction()),
+            Map.entry("BIG_COS", new BigMathCosFunction()))
+        .withAdditionalOperators(
+            Map.entry("^", new BigMathInfixPowerOfOperator()));
         
-Expression expression = new Expression("BIG_SIN(x) + BIG_COS(y)", configuration); 
+Expression expression = new Expression("BIG_SIN(x) ^ BIG_COS(y)", configuration); 
 ```
 
 ## Discussion
@@ -79,57 +85,79 @@ You can download the binaries, source code and JavaDoc jars from
 You will find there also copy/paste templates for including EvalEx in your project with build
 systems like Maven or Gradle.
 
+| :warning: **Attention:** You have to add EvalEx and EvalEx-big-math dependencies to your project |
+|--------------------------------------------------------------------------------------------------|
+
 ## New Functions
 
-| Name         | Description                                              |
-|--------------|----------------------------------------------------------|
-| BN(value)    | Calculates the Bernoulli number for the specified index. |
-| EXP(value)   | Calculates the natural exponent of x (e<sup>x</sup>).    |
+| Name                 | Description                                                                                         |
+|----------------------|-----------------------------------------------------------------------------------------------------|
+| BN(x)                | Calculates the Bernoulli number for the specified index.                                            |
+| E()                  | Returns the number e with the configured  precision. The value is cached                            |
+| EXP(x)               | Calculates the natural exponent of x (e<sup>x</sup>).                                               |
+| EXPONENT(x)          | Returns the exponent of the specified BigDecimal written as <i>mantissa * 10<sup>exponent</sup></i> |
+| FRACTIONALPART(x)    | Returns the fractional part of x (right of the decimal point).                                      |
+| GAMMA(x)             | Calculates the gamma function of x.                                                                 |
+| INTEGRALPART(x)      | Returns the integral part of x (left of the decimal point).                                         |
+| LOG2(x)              | The natural logarithm (base e) of x to te base of 2.                                                |
+| MANTISSA(x)          | Returns the mantissa of the specified BigDecimal written as <i>mantissa * 10<sup>exponent</sup></i> |
+| PI()                 | Returns the number PI with the configured  precision. The value is cached.                          |
+| RECIPROCAL(x)        | Returns the reciprocal of x.                                                                        |
+| ROOT(x, n)           | Calculates the nth root of x.                                                                       |
+| SIGNIFICANTDIGITS(x) | Returns the number of significant digits of x.                                                      |
 
 ## Overridden Basic Functions
 
-| Name              | Description                                  |
-|-------------------|----------------------------------------------|
-| LOG(value)        | The natural logarithm (base e) of a value    |
+| Name     | Description                                           |
+|----------|-------------------------------------------------------|
+| FACT(x)  | Calculates the factorial of x.                        |
+| LOG(x)   | The natural logarithm (base e) of x.                  |
+| LOG10(x) | The natural logarithm (base e) of x to te base of 10. |
+
+## Overridden Basic perators
+
+| Name | Description              |
+|------|--------------------------|
+| ^    | The power-of operator.   |
 
 ## Overridden Trigonometric Functions
 
 | Name         | Description                                                                                    |
 |--------------|------------------------------------------------------------------------------------------------|
-| ACOS(value)  | Returns the the arc-cosine (in degrees)                                                        |
-| ACOSH(value) | Returns the the hyperbolic arc-cosine (in degrees)                                             |
-| ACOSR(value) | Returns the the arc-cosine (in radians)                                                        |
-| ACOT(value)  | Returns the the arc-co-tangent (in degrees)                                                    |
-| ACOTH(value) | Returns the the hyperbolic arc-co-tangent (in radians)                                         |
-| ACOTR(value) | Returns the the arc-co-tangent (in radians)                                                    |
-| ASIN(value)  | Returns the the arc-sine (in degrees)                                                          |
-| ASINH(value) | Returns the hyperbolic arc-sine (in degrees)                                                   |
-| ASINR(value) | Returns the arc-sine (in radians)                                                              |
+| ACOS(x)      | Returns the the arc-cosine (in degrees)                                                        |
+| ACOSH(x)     | Returns the the hyperbolic arc-cosine (in degrees)                                             |
+| ACOSR(x)     | Returns the the arc-cosine (in radians)                                                        |
+| ACOT(x)      | Returns the the arc-co-tangent (in degrees)                                                    |
+| ACOTH(x)     | Returns the the hyperbolic arc-co-tangent (in radians)                                         |
+| ACOTR(x)     | Returns the the arc-co-tangent (in radians)                                                    |
+| ASIN(x)      | Returns the the arc-sine (in degrees)                                                          |
+| ASINH(x)     | Returns the hyperbolic arc-sine (in degrees)                                                   |
+| ASINR(x)     | Returns the arc-sine (in radians)                                                              |
 | ATAN2(y, x)  | Returns the angle of atan2 (in degrees)                                                        |
 | ATAN2R(y, x) | Returns the angle of atan2 (in radians)                                                        |
-| ATAN(value)  | Returns the arc-tangent (in degrees)                                                           |
-| ATANH(value) | Returns the hyperbolic arc-tangent (in degrees)                                                |
-| ATANR(value) | Returns the arc-tangent (in radians)                                                           |
-| COS(value)   | Returns the cosine of an angle (in degrees)                                                    |
-| COSH(value)  | Returns the hyperbolic cosine of a value                                                       |
-| COSR(value)  | Returns the cosine of an angle (in radians)                                                    |
-| COT(value)   | Returns the co-tangent of an angle (in degrees)                                                |
-| COTH(value)  | Returns the hyperbolic co-tangent of a value                                                   |
-| COTR(value)  | Returns the co-tangent of an angle (in radians)                                                |
-| CSC(value)   | Returns the co-secant of an angle (in degrees)                                                 |
-| CSCH(value)  | Returns the hyperbolic co-secant of a value                                                    |
-| CSCR(value)  | Returns the co-secant of an angle (in radians)                                                 |
+| ATAN(x)      | Returns the arc-tangent (in degrees)                                                           |
+| ATANH(x)     | Returns the hyperbolic arc-tangent (in degrees)                                                |
+| ATANR(x)     | Returns the arc-tangent (in radians)                                                           |
+| COS(x)       | Returns the cosine of an angle (in degrees)                                                    |
+| COSH(x)      | Returns the hyperbolic cosine of x                                                             |
+| COSR(x)      | Returns the cosine of an angle (in radians)                                                    |
+| COT(x)       | Returns the co-tangent of an angle (in degrees)                                                |
+| COTH(x)      | Returns the hyperbolic co-tangent of x                                                         |
+| COTR(x)      | Returns the co-tangent of an angle (in radians)                                                |
+| CSC(x)       | Returns the co-secant of an angle (in degrees)                                                 |
+| CSCH(x)      | Returns the hyperbolic co-secant of x                                                          |
+| CSCR(x)      | Returns the co-secant of an angle (in radians)                                                 |
 | DEG(rad)     | Converts an angle measured in radians to an approximately equivalent angle measured in degrees |
 | RAD(degrees) | Converts an angle measured in degrees to an approximately equivalent angle measured in radians |
-| SEC(value)   | Returns the secant of an angle (in degrees)                                                    |
-| SECH(value)  | Returns the hyperbolic secant of an angle                                                      |
-| SECR(value)  | Returns the secant of an angle (in radians)                                                    |
-| SIN(value)   | Returns the sine of an angle (in degrees)                                                      |
-| SINH(value)  | Returns the hyperbolic sine of a value                                                         |
-| SINR(value)  | Returns the sine of an angle (in radians)                                                      |
-| TAN(value)   | Returns the tangent of an angle (in degrees)                                                   |
-| TANH(value)  | Returns the hyperbolic tangent of a value                                                      |
-| TANR(value)  | Returns the tangent of an angle (in radians)                                                   |
+| SEC(x)       | Returns the secant of an angle (in degrees)                                                    |
+| SECH(x)      | Returns the hyperbolic secant of an angle                                                      |
+| SECR(x)      | Returns the secant of an angle (in radians)                                                    |
+| SIN(x)       | Returns the sine of an angle (in degrees)                                                      |
+| SINH(x)      | Returns the hyperbolic sine of x                                                               |
+| SINR(x)      | Returns the sine of an angle (in radians)                                                      |
+| TAN(x)       | Returns the tangent of an angle (in degrees)                                                   |
+| TANH(x)      | Returns the hyperbolic tangent of x                                                            |
+| TANR(x)      | Returns the tangent of an angle (in radians)                                                   |
 
 ## Author and License
 

@@ -20,9 +20,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 /** Collects all the functions. */
-public class BigMathFunctions {
+public class BigDecimalMathFunctions {
 
-  private BigMathFunctions() {
+  private BigDecimalMathFunctions() {
     // no instantiation
   }
 
@@ -33,12 +33,6 @@ public class BigMathFunctions {
   @SuppressWarnings("unchecked")
   protected static final Map.Entry<String, FunctionIfc>[] ALL_FUNCTIONS =
       new Entry[] {
-        // Basic
-        Map.entry("BN", new BigMathBernoulliFunction()),
-        Map.entry("EXP", new BigMathExpFunction()),
-        Map.entry("LOG", new BigMathLogFunction()),
-
-        // Trigonometric
         Map.entry("ACOS", new BigMathAcosFunction()),
         Map.entry("ACOSH", new BigMathAcosHFunction()),
         Map.entry("ACOSR", new BigMathAcosRFunction()),
@@ -53,6 +47,7 @@ public class BigMathFunctions {
         Map.entry("ATAN", new BigMathAtanFunction()),
         Map.entry("ATANH", new BigMathAtanHFunction()),
         Map.entry("ATANR", new BigMathAtanRFunction()),
+        Map.entry("BN", new BigMathBernoulliFunction()),
         Map.entry("COS", new BigMathCosFunction()),
         Map.entry("COSH", new BigMathCosHFunction()),
         Map.entry("COSR", new BigMathCosRFunction()),
@@ -63,13 +58,29 @@ public class BigMathFunctions {
         Map.entry("CSCH", new BigMathCscHFunction()),
         Map.entry("CSCR", new BigMathCscRFunction()),
         Map.entry("DEG", new BigMathDegFunction()),
+        Map.entry("E", new BigMathEFunction()),
+        Map.entry("EXP", new BigMathExpFunction()),
+        Map.entry("EXPONENT", new BigMathExponentFunction()),
+        Map.entry("FACT", new BigMathFactorialFunction()),
+        Map.entry("FRACTIONALPART", new BigMathFractionalPartFunction()),
+        Map.entry("GAMMA", new BigMathGammaFunction()),
+        Map.entry("INTEGRALPART", new BigMathIntegralPartFunction()),
+        Map.entry("LOG", new BigMathLogFunction()),
+        Map.entry("LOG10", new BigMathLog10Function()),
+        Map.entry("LOG2", new BigMathLog2Function()),
+        Map.entry("MANTISSA", new BigMathMantissaFunction()),
+        Map.entry("PI", new BigMathPiFunction()),
         Map.entry("RAD", new BigMathRadFunction()),
+        Map.entry("RECIPROCAL", new BigMathReciprocalFunction()),
+        Map.entry("ROOT", new BigMathRootFunction()),
         Map.entry("SEC", new BigMathSecFunction()),
         Map.entry("SECH", new BigMathSecHFunction()),
         Map.entry("SECR", new BigMathSecRFunction()),
+        Map.entry("SIGNIFICANTDIGITS", new BigMathSignificantDigitsFunction()),
         Map.entry("SIN", new BigMathSinFunction()),
         Map.entry("SINH", new BigMathSinHFunction()),
         Map.entry("SINR", new BigMathSinRFunction()),
+        Map.entry("SQRT", new BigMathSqrtFunction()),
         Map.entry("TAN", new BigMathTanFunction()),
         Map.entry("TANH", new BigMathTanHFunction()),
         Map.entry("TANR", new BigMathTanRFunction())

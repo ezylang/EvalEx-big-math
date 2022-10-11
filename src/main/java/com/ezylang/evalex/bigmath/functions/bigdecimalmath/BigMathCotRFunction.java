@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 /** Returns the co-tangent of an angle (in radians). */
-@FunctionParameter(name = "x")
+@FunctionParameter(name = "x", nonZero = true)
 public class BigMathCotRFunction extends AbstractBigMathFunction {
 
   @Override

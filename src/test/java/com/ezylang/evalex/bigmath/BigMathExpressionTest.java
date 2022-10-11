@@ -15,7 +15,7 @@
 */
 package com.ezylang.evalex.bigmath;
 
-import com.ezylang.evalex.bigmath.functions.bigdecimalmath.BigMathFunctions;
+import com.ezylang.evalex.bigmath.functions.bigdecimalmath.BigDecimalMathFunctions;
 import com.ezylang.evalex.config.ExpressionConfiguration;
 import com.ezylang.evalex.functions.FunctionIfc;
 import java.util.Map.Entry;
@@ -38,7 +38,7 @@ class BigMathExpressionTest {
   }
 
   private void assertAllFunctionsInConfiguration(BigMathExpression expression) {
-    for (Entry<String, FunctionIfc> entry : BigMathFunctions.allFunctions()) {
+    for (Entry<String, FunctionIfc> entry : BigDecimalMathFunctions.allFunctions()) {
       FunctionIfc function =
           expression.getConfiguration().getFunctionDictionary().getFunction(entry.getKey());
       Assertions.assertThat(function).isEqualTo(entry.getValue());

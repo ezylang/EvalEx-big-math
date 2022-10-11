@@ -16,7 +16,8 @@
 package com.ezylang.evalex.bigmath;
 
 import com.ezylang.evalex.Expression;
-import com.ezylang.evalex.bigmath.functions.bigdecimalmath.BigMathFunctions;
+import com.ezylang.evalex.bigmath.functions.bigdecimalmath.BigDecimalMathFunctions;
+import com.ezylang.evalex.bigmath.operators.bigdecimalmath.BigDecimalMathOperators;
 import com.ezylang.evalex.config.ExpressionConfiguration;
 
 /** An expression that has the big-math functions configured by default. */
@@ -26,10 +27,15 @@ public class BigMathExpression extends Expression {
     super(
         expressionString,
         ExpressionConfiguration.defaultConfiguration()
-            .withAdditionalFunctions(BigMathFunctions.allFunctions()));
+            .withAdditionalFunctions(BigDecimalMathFunctions.allFunctions())
+            .withAdditionalOperators(BigDecimalMathOperators.allOperators()));
   }
 
   public BigMathExpression(String expressionString, ExpressionConfiguration configuration) {
-    super(expressionString, configuration.withAdditionalFunctions(BigMathFunctions.allFunctions()));
+    super(
+        expressionString,
+        configuration
+            .withAdditionalFunctions(BigDecimalMathFunctions.allFunctions())
+            .withAdditionalOperators(BigDecimalMathOperators.allOperators()));
   }
 }

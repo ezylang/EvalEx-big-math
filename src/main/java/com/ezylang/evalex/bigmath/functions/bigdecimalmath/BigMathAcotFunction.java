@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 
 /** Returns the arc-co-tangent (in degrees). */
-@FunctionParameter(name = "x")
+@FunctionParameter(name = "x", nonZero = true)
 public class BigMathAcotFunction extends AbstractBigMathFunction {
 
   @Override

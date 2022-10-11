@@ -20,9 +20,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.ezylang.evalex.EvaluationException;
 import com.ezylang.evalex.Expression;
+import com.ezylang.evalex.bigmath.BigMathExpression;
 import com.ezylang.evalex.config.ExpressionConfiguration;
 import com.ezylang.evalex.data.EvaluationValue;
 import com.ezylang.evalex.parser.ParseException;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,7 +36,7 @@ class BigDecimalMathFunctionTest {
 
   ExpressionConfiguration configuration =
       ExpressionConfiguration.defaultConfiguration()
-          .withAdditionalFunctions(BigMathFunctions.allFunctions());
+          .withAdditionalFunctions(BigDecimalMathFunctions.allFunctions());
 
   protected void assertExpressionHasExpectedResult(String expression, String expectedResult)
       throws EvaluationException, ParseException {
@@ -146,14 +149,14 @@ class BigDecimalMathFunctionTest {
 
   @Test
   void testAcotRThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("ACOTR(0)").evaluate())
+    Assertions.assertThatThrownBy(() -> new BigMathExpression("ACOTR(0)").evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Parameter must not be zero");
   }
 
   @Test
   void testAcotThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("ACOT(0)").evaluate())
+    Assertions.assertThatThrownBy(() -> new BigMathExpression("ACOT(0)").evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Parameter must not be zero");
   }
@@ -248,14 +251,16 @@ class BigDecimalMathFunctionTest {
 
   @Test
   void testAtan2RThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("ATAN2R(0,0)", configuration).evaluate())
+    Assertions.assertThatThrownBy(
+            () -> new BigMathExpression("ATAN2R(0,0)", configuration).evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Illegal atan2(y, x) for x = 0; y = 0");
   }
 
   @Test
   void testAtan2ThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("ATAN2(0,0)", configuration).evaluate())
+    Assertions.assertThatThrownBy(
+            () -> new BigMathExpression("ATAN2(0,0)", configuration).evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Illegal atan2(y, x) for x = 0; y = 0");
   }
@@ -428,7 +433,7 @@ class BigDecimalMathFunctionTest {
 
   @Test
   void testCotHThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("COTH(0)", configuration).evaluate())
+    Assertions.assertThatThrownBy(() -> new BigMathExpression("COTH(0)", configuration).evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Parameter must not be zero");
   }
@@ -448,35 +453,35 @@ class BigDecimalMathFunctionTest {
 
   @Test
   void testCotRThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("COTR(0)").evaluate())
+    Assertions.assertThatThrownBy(() -> new BigMathExpression("COTR(0)").evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Parameter must not be zero");
   }
 
   @Test
   void testCotThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("COT(0)", configuration).evaluate())
+    Assertions.assertThatThrownBy(() -> new BigMathExpression("COT(0)", configuration).evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Parameter must not be zero");
   }
 
   @Test
   void testCscHThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("CSCH(0)", configuration).evaluate())
+    Assertions.assertThatThrownBy(() -> new BigMathExpression("CSCH(0)", configuration).evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Parameter must not be zero");
   }
 
   @Test
   void testCscRThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("CSCR(0)", configuration).evaluate())
+    Assertions.assertThatThrownBy(() -> new BigMathExpression("CSCR(0)", configuration).evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Parameter must not be zero");
   }
 
   @Test
   void testCscThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("CSC(0)", configuration).evaluate())
+    Assertions.assertThatThrownBy(() -> new BigMathExpression("CSC(0)", configuration).evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Parameter must not be zero");
   }
@@ -495,6 +500,22 @@ class BigDecimalMathFunctionTest {
     assertExpressionHasExpectedResult(expression, expectedResult);
   }
 
+  @Test
+  void testE() throws EvaluationException, ParseException {
+    assertThat(evaluate("e()", configuration).getStringValue())
+        .isEqualTo("2.7182818284590452353602874713526624977572470936999595749669676277241");
+  }
+
+  @Test
+  void testELowerPrecision() throws EvaluationException, ParseException {
+    ExpressionConfiguration config =
+        ExpressionConfiguration.builder()
+            .mathContext(new MathContext(10, RoundingMode.HALF_EVEN))
+            .build()
+            .withAdditionalFunctions(BigDecimalMathFunctions.allFunctions());
+    assertThat(evaluate("e()", config).getStringValue()).isEqualTo("2.718281828");
+  }
+
   @ParameterizedTest
   @CsvSource(
       delimiter = ':',
@@ -506,6 +527,80 @@ class BigDecimalMathFunctionTest {
         "EXP(-1) : 0.36787944117144232159552377016146086744581113103176783450783680169746"
       })
   void testExp(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
+        "EXPONENT(0) : 0",
+        "EXPONENT(1) : 0",
+        "EXPONENT(1234.42) : 3",
+        "EXPONENT(-1234) : 3",
+        "EXPONENT(49393993.939393) : 7"
+      })
+  void testExponent(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
+        "FACT(-2.5) : 2.3632718012073547030642233111215269103967326081631828376184103864705",
+        "FACT(0) : 1",
+        "FACT(1) : 1",
+        "FACT(5.7) : 413.4075167652706955633101100320104010646407873244548491658848029494",
+        "FACT(10) : 3628800",
+        "FACT(50) : 30414093201713378043612608166064768844377641568960512000000000000"
+      })
+  void testFactorial(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
+        "FRACTIONALPART(0) : 0",
+        "FRACTIONALPART(1) : 0",
+        "FRACTIONALPART(1234.42) : 0.42",
+        "FRACTIONALPART(-1234.92838) : -0.92838",
+        "FRACTIONALPART(49393993.939393949492) : 0.939393949492"
+      })
+  void testFractionalPart(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
+        "GAMMA(1) : 1",
+        "GAMMA(10) : 362880",
+        "GAMMA(34.8) : 145495640229953539293680410894926318036.54766085088369648260644951753"
+      })
+  void testGamma(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
+        "INTEGRALPART(0) : 0",
+        "INTEGRALPART(1) : 1",
+        "INTEGRALPART(1234.42) : 1234",
+        "INTEGRALPART(-1234.92838) : -1234",
+        "INTEGRALPART(49393993.939393949492) :49393993"
+      })
+  void testIntegralPart(String expression, String expectedResult)
       throws EvaluationException, ParseException {
     assertExpressionHasExpectedResult(expression, expectedResult);
   }
@@ -528,6 +623,93 @@ class BigDecimalMathFunctionTest {
   @CsvSource(
       delimiter = ':',
       value = {
+        "LOG10(1) : 0",
+        "LOG10(10) : 1",
+        "LOG10(2.12345) : 0.32704203929432388276732686480064255538938448402407087683012738343244",
+        "LOG10(1567) : 3.1950689964685901310045843028380378844870821067582126070296443075022"
+      })
+  void testLog10(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @Test
+  void testLog10Negative() {
+    assertThatThrownBy(() -> new BigMathExpression("LOG10(-1)").evaluate())
+        .isInstanceOf(EvaluationException.class)
+        .hasMessage("Parameter must not be negative");
+  }
+
+  @Test
+  void testLog10Zero() {
+    assertThatThrownBy(() -> new BigMathExpression("LOG10(0)").evaluate())
+        .isInstanceOf(EvaluationException.class)
+        .hasMessage("Parameter must not be zero");
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
+        "LOG2(1) : 0",
+        "LOG2(10) : 3.3219280948873623478703194294893901758648313930245806120547563958159",
+        "LOG2(2.12345) : 1.0864101385410712327404540829104449213821624126500036929251012953616",
+        "LOG2(1567) : 10.61378946447258027106930251500412913237266357264773607805987640923"
+      })
+  void testLog2(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @Test
+  void testLog2Negative() {
+    assertThatThrownBy(() -> new BigMathExpression("LOG2(-1)").evaluate())
+        .isInstanceOf(EvaluationException.class)
+        .hasMessage("Parameter must not be negative");
+  }
+
+  @Test
+  void testLog2Zero() {
+    assertThatThrownBy(() -> new BigMathExpression("LOG2(0)").evaluate())
+        .isInstanceOf(EvaluationException.class)
+        .hasMessage("Parameter must not be zero");
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
+        "MANTISSA(0) : 0",
+        "MANTISSA(1) : 1",
+        "MANTISSA(1234.42) : 1.23442",
+        "MANTISSA(-1234) : -1.234",
+        "MANTISSA(49393993.939393) : 4.9393993939393"
+      })
+  void testMantissa(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @Test
+  void testPi() throws EvaluationException, ParseException {
+    assertThat(evaluate("pi()", configuration).getStringValue())
+        .isEqualTo("3.1415926535897932384626433832795028841971693993751058209749445923078");
+  }
+
+  @Test
+  void testPiLowerPrecision() throws EvaluationException, ParseException {
+    ExpressionConfiguration config =
+        ExpressionConfiguration.builder()
+            .mathContext(new MathContext(10, RoundingMode.HALF_EVEN))
+            .build()
+            .withAdditionalFunctions(BigDecimalMathFunctions.allFunctions());
+    assertThat(evaluate("pi()", config).getStringValue()).isEqualTo("3.141592654");
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
         "RAD(0) : 0",
         "RAD(1) : 0.01745329251994329576923690768488612713442871888541725456097191440171",
         "RAD(45) : 0.78539816339744830961566084581987572104929234984377645524373614807695",
@@ -538,6 +720,59 @@ class BigDecimalMathFunctionTest {
   void testRad(String expression, String expectedResult)
       throws EvaluationException, ParseException {
     assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
+        "RECIPROCAL(1) : 1",
+        "RECIPROCAL(10) : 0.1",
+        "RECIPROCAL(3) : 0.33333333333333333333333333333333333333333333333333333333333333333333",
+        "RECIPROCAL(14.8) : 0.067567567567567567567567567567567567567567567567567567567567567567568"
+      })
+  void testReciprocal(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @Test
+  void testReciprocalZero() {
+    assertThatThrownBy(() -> new BigMathExpression("RECIPROCAL(0)").evaluate())
+        .isInstanceOf(EvaluationException.class)
+        .hasMessage("Parameter must not be zero");
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
+        "ROOT(0, -1) : 0",
+        "ROOT(0, 1) : 0",
+        "ROOT(0, 2) : 0",
+        "ROOT(1, -1) : 1",
+        "ROOT(1, 1) : 1",
+        "ROOT(1, 2) : 1",
+        "ROOT(2, 2) : 1.4142135623730950488016887242096980785696718753769480731766797379907",
+        "ROOT(6.8, 2.5) : 2.1527994067793906954203846880353543694065195606450150222981530863809"
+      })
+  void testRoot(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @Test
+  void testRootNegative() {
+    assertThatThrownBy(() -> new BigMathExpression("ROOT(-1, 1)").evaluate())
+        .isInstanceOf(EvaluationException.class)
+        .hasMessage("Parameter must not be negative");
+  }
+
+  @Test
+  void testRootZero() {
+    assertThatThrownBy(() -> new BigMathExpression("ROOT(2, 0)").evaluate())
+        .isInstanceOf(EvaluationException.class)
+        .hasMessage("Parameter must not be zero");
   }
 
   @ParameterizedTest
@@ -568,7 +803,7 @@ class BigDecimalMathFunctionTest {
 
   @Test
   void testSecHThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("SECH(0)").evaluate())
+    Assertions.assertThatThrownBy(() -> new BigMathExpression("SECH(0)").evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Parameter must not be zero");
   }
@@ -588,16 +823,31 @@ class BigDecimalMathFunctionTest {
 
   @Test
   void testSecRThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("SECR(0)").evaluate())
+    Assertions.assertThatThrownBy(() -> new BigMathExpression("SECR(0)").evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Parameter must not be zero");
   }
 
   @Test
   void testSecThrowsException() {
-    Assertions.assertThatThrownBy(() -> new Expression("SEC(0)").evaluate())
+    Assertions.assertThatThrownBy(() -> new BigMathExpression("SEC(0)").evaluate())
         .isInstanceOf(EvaluationException.class)
         .hasMessage("Parameter must not be zero");
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
+        "SIGNIFICANTDIGITS(-23.8) : 3",
+        "SIGNIFICANTDIGITS(0) : 1",
+        "SIGNIFICANTDIGITS(1) : 1",
+        "SIGNIFICANTDIGITS(123) : 3",
+        "SIGNIFICANTDIGITS(123.456) : 6"
+      })
+  void testSignificantDigits(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
   }
 
   @ParameterizedTest
@@ -639,6 +889,27 @@ class BigDecimalMathFunctionTest {
   void testSinR(String expression, String expectedResult)
       throws EvaluationException, ParseException {
     assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @ParameterizedTest
+  @CsvSource(
+      delimiter = ':',
+      value = {
+        "SQRT(0) : 0",
+        "SQRT(1) : 1",
+        "SQRT(2) : 1.4142135623730950488016887242096980785696718753769480731766797379907",
+        "SQRT(6.8) : 2.6076809620810594858331886229716737666112375115640261835801587397935"
+      })
+  void testSqr(String expression, String expectedResult)
+      throws EvaluationException, ParseException {
+    assertExpressionHasExpectedResult(expression, expectedResult);
+  }
+
+  @Test
+  void testSqrNegative() {
+    assertThatThrownBy(() -> new BigMathExpression("SQRT(-1)").evaluate())
+        .isInstanceOf(EvaluationException.class)
+        .hasMessage("Parameter must not be negative");
   }
 
   @ParameterizedTest
