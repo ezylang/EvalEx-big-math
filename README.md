@@ -85,6 +85,36 @@ You can download the binaries, source code and JavaDoc jars from
 You will find there also copy/paste templates for including EvalEx in your project with build
 systems like Maven or Gradle.
 
+### Maven
+
+To include it in your Maven project, refer to both artifacts in your pom. For example:
+
+```xml
+<dependencies>
+    <dependency>
+      <groupId>com.ezylang</groupId>
+      <artifactId>EvalEx</artifactId>
+      <version>3.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ezylang</groupId>
+      <artifactId>EvalEx-big-math</artifactId>
+      <version>1.0.0</version>
+    </dependency>
+</dependencies>
+```
+
+### Gradle
+
+If you're using gradle add both dependencies to your project's app build.gradle:
+
+```gradle
+dependencies {
+    compile 'com.ezylang:EvalEx:3.0.1'
+    compile 'com.ezylang:EvalEx-big-math:1.0.0'
+}
+```
+
 | :warning: **Attention:** You have to add EvalEx and EvalEx-big-math dependencies to your project |
 |--------------------------------------------------------------------------------------------------|
 

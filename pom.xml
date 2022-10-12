@@ -5,11 +5,12 @@
 
   <groupId>com.ezylang</groupId>
   <artifactId>EvalEx-big-math</artifactId>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
 
   <name>EvalEx-big-math</name>
 
-  <description>EvalEx big-math extension for math functions (pow, sqrt, log, sin, ...)</description>
+  <description>EvalEx big-math extension for math functions using an arbitrary precision
+  </description>
 
   <url>https://github.com/ezylang/EvalEx-big-math</url>
 
