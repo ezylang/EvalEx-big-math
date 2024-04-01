@@ -5,7 +5,6 @@ EvalEx-big-math - an EvalEx extension to use the big-math project for calculatio
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ezylang_EvalEx-big-math&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ezylang_EvalEx-big-math)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=ezylang_EvalEx-big-math&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=ezylang_EvalEx-big-math)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=ezylang_EvalEx-big-math&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=ezylang_EvalEx-big-math)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ezylang_EvalEx-big-math&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ezylang_EvalEx-big-math)
 
 [EvalEx](https://github.com/ezylang/EvalEx) is a handy expression evaluator for Java. It allows to
 evaluate mathematical and boolean expressions.
@@ -94,7 +93,7 @@ To include it in your Maven project, refer to both artifacts in your pom. For ex
     <dependency>
       <groupId>com.ezylang</groupId>
       <artifactId>EvalEx</artifactId>
-      <version>3.0.1</version>
+      <version>3.2.0</version>
     </dependency>
     <dependency>
       <groupId>com.ezylang</groupId>
@@ -110,7 +109,7 @@ If you're using gradle add both dependencies to your project's app build.gradle:
 
 ```gradle
 dependencies {
-    compile 'com.ezylang:EvalEx:3.0.1'
+    compile 'com.ezylang:EvalEx:3.2.0'
     compile 'com.ezylang:EvalEx-big-math:1.0.0'
 }
 ```
@@ -191,7 +190,7 @@ dependencies {
 
 ## Author and License
 
-Copyright 2012-2022 by Udo Klimaschewski
+Copyright 2012-2024 by Udo Klimaschewski
 
 **Thanks to all who contributed to this
 project: [Contributors](https://github.com/ezylang/EvalEx-big-math/graphs/contributors)**

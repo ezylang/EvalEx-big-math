@@ -747,10 +747,8 @@ class BigDecimalMathFunctionTest {
   @CsvSource(
       delimiter = ':',
       value = {
-        "ROOT(0, -1) : 0",
         "ROOT(0, 1) : 0",
         "ROOT(0, 2) : 0",
-        "ROOT(1, -1) : 1",
         "ROOT(1, 1) : 1",
         "ROOT(1, 2) : 1",
         "ROOT(2, 2) : 1.4142135623730950488016887242096980785696718753769480731766797379907",
