@@ -44,7 +44,7 @@ public class BigMathInfixPowerOfOperator extends AbstractOperator {
     EvaluationValue rightOperand = operands[1];
 
     if (leftOperand.isNumberValue() && rightOperand.isNumberValue()) {
-      return new EvaluationValue(
+      return expression.convertValue(
           BigDecimalMath.pow(
               leftOperand.getNumberValue(),
               rightOperand.getNumberValue(),
