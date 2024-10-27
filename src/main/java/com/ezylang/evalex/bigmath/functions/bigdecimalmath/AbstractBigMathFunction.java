@@ -45,7 +45,7 @@ public abstract class AbstractBigMathFunction extends AbstractFunction {
               .map(EvaluationValue::getNumberValue)
               .toArray(BigDecimal[]::new);
       MathContext mathContext = expression.getConfiguration().getMathContext();
-      return new EvaluationValue(round(evaluateBigMath(mathContext, values), mathContext));
+      return expression.convertValue(round(evaluateBigMath(mathContext, values), mathContext));
     } catch (ArithmeticException e) {
       throw new EvaluationException(token, e.getMessage());
     }

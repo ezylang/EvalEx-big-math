@@ -94,7 +94,7 @@ To include it in your Maven project, refer to both artifacts in your pom. For ex
     <dependency>
       <groupId>com.ezylang</groupId>
       <artifactId>EvalEx</artifactId>
-      <version>3.2.0</version>
+      <version>3.4.0</version>
     </dependency>
     <dependency>
       <groupId>com.ezylang</groupId>
@@ -110,7 +110,7 @@ If you're using gradle add both dependencies to your project's app build.gradle:
 
 ```gradle
 dependencies {
-    compile 'com.ezylang:EvalEx:3.2.0'
+    compile 'com.ezylang:EvalEx:3.4.0'
     compile 'com.ezylang:EvalEx-big-math:1.0.0'
 }
 ```
